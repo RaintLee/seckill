@@ -1,5 +1,6 @@
 package com.learn.vo;
 
+import com.learn.validator.IsMobile;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
@@ -9,7 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 public class LoginVo {
     @NotNull
-//    @IsMobile
+    @IsMobile
     private String mobile;
 
     @NotNull
