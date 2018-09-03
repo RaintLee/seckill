@@ -3,6 +3,8 @@ package com.learn.service;
 import com.learn.dao.MiaoshaUserDao;
 import com.learn.domain.MiaoshaUser;
 import com.learn.exception.GlobalException;
+import com.learn.redis.MiaoshaUserKey;
+import com.learn.redis.RedisService;
 import com.learn.result.CodeMsg;
 import com.learn.utils.MD5Util;
 import com.learn.utils.UUIDUtil;
@@ -23,6 +25,9 @@ public class MiaoshaUserService {
 
     @Autowired
     MiaoshaUserDao miaoshaUserDao;
+
+    @Autowired
+    RedisService redisService;
 
     public String login(HttpServletResponse response, LoginVo loginVo) {
         if(loginVo == null) {
@@ -49,6 +54,7 @@ public class MiaoshaUserService {
     }
 
     private void addCookie(HttpServletResponse response, String token, MiaoshaUser user) {
+        redisService.set(MiaoshaUserKey.token, token, user);
         Cookie cookie=new Cookie(COOKI_NAME_TOKEN,token);
         cookie.setPath("/");
         response.addCookie(cookie);
